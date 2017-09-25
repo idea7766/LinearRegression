@@ -1,6 +1,6 @@
 import numpy as np
 
-def LinearRegression(x, y, lr, epoch):
+def LinearRegression(x, y, lr, epoch = 5):
     '''
     # Linear Regression
     ## Basic Concpet
@@ -16,9 +16,15 @@ def LinearRegression(x, y, lr, epoch):
     '''
     if x.ndim !=2:
         raise('= =寫二維陣列啦')
+    
+    # initialization
     bias = 0
-    w = np.ones(y.shape[1]) # initial weight: all 1
+    w = np.ones(y.shape[1])
 
+    # 數次 epoch 的 SGD
+    for i in range(epoch):
+        SGD()
+        
     for train_x in x:
         pass
     return b, w
