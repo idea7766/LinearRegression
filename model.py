@@ -15,7 +15,7 @@ def LinearRegression(x, y, lr, epoch):
     epoch: epoch數
     '''
     if x.ndim !=2:
-        raise('= =寫錯了啦幹')
+        raise('= =寫二維陣列啦')
     bias = 0
     w = np.ones(y.shape[1]) # initial weight: all 1
 
@@ -29,21 +29,27 @@ def squre_error(y, y_pred):
 def y_pred_linear(x, bias, w):
     return bias + np.dot(w, x)
 
-def cal_loss(x, y, b, w):
-    return (y[i] - (b + dot(w * x[i]) ) * w[i])
+def cal_loss(x, y, b, w, i): 
+    for j in range(x.shape[0]):
+        cal_weight +=  y[j] - (b + dot(w, x[j]) )
+        cal_bias += (y[j] - (b + dot(w, x[j]) )
+    # cal_error = -2 * (cal_weight + cal_bias)
+    return -2 * cal_weight * w[i], -2 * cal_bias
 
 def SGD(x, y, lr, b, w):
     '''
-    # Attribute
+    ## Attribute
     x: example x
     y: example y
     lr: learning rates 
-    # Return 
+    ## Return 
     b: constant bias
     w: weight array
     '''
-    w_result = np.array(x.shape)
-    b_result = 
+    # w_result = np.array(x.shape)
+    # b_result = 0
     for i in range(x.shape[1]):
-        w_result[i] = w[i] - lr * 
-        return b, w
+        cal_loss_w, cal_loss_b = cal_loss(x, y, b, w, i)
+        w[i] = w[i] - lr * cal_loss_w
+        b = b - lr * cal_loss_b
+    return b, w
