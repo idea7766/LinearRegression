@@ -21,7 +21,7 @@ def LinearRegression(x, y, lr = 0.0001 , epoch = 5, ex_size = 20):
     b = 0
     w = np.ones(x.shape[1])
 
-    if type(lr) != float:
+    if type(lr) != (float or int):
         print('目前只有 static learning rate\n 使用 lr = 0.0001')
 
     # 數次 epoch 的 SGD, 還沒做 random choice
@@ -40,14 +40,14 @@ def SGD(x, y, lr, b, w):
     b: constant bias
     w: weight array
     '''
-    # w_result = np.array(x.shape)
-    # b_result = 0
-    for i in range(x.shape[1]):
+    num_fea = x.shape[1]
+    x_count = x.shape[0]
+    for i in range(num_fea):
         cal_loss_w, cal_loss_b = cal_loss(x, y, b, w, i)
-        # cal_loss_w = float(cal_loss_w)
-        # cal_loss_b = float(cal_loss_b)
-        w[i] = w[i] - lr * cal_loss_w
-        b = b - lr * cal_loss_b
+        # print('w:', cal_loss_w)
+        # print('b :', cal_loss_b)  
+        w[i] = w[i] - lr * cal_loss_w *(1 / x_count)
+        b = b - lr * cal_loss_b * (1 / x_count)
     return b, w
 
 def squre_error(y, y_pred):
@@ -57,13 +57,17 @@ def y_pred_linear(x, bias, w):
     return bias + np.dot(w, x)
 
 def cal_loss(x, y, b, w, i): 
-    cal_weight = np.zeros(x.shape[1])
+    cal_weight = 0
     cal_bias = 0
-    # print(w.shape)
-    # print(x.shape)
     for j in range(x.shape[0]):
         cal_weight +=  y[j] - (b + np.dot(w, x[j]) )
         cal_bias += y[j] - (b + np.dot(w, x[j]))
-    # cal_error = -2 * (cal_weight + cal_bias)
-    print(cal_weight.shape)
     return -2 * cal_weight * w[i], -2 * cal_bias
+
+def predcit(x, b, w):
+    count = x.shape[0]
+    y = np.array([])
+    for i in range(count):
+        y_const = b + np.dot(w, x[i])
+        y = np.append(y, y_const)
+    return y

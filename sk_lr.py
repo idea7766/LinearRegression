@@ -1,8 +1,7 @@
 from sklearn import datasets
 import numpy as np
+from sklearn import linear_model
 import matplotlib.pyplot as plt
-
-import linear_model
 
 # 讀寫 boston 資料，data 和 target 皆為 np array
 boston = datasets.load_boston()
@@ -11,14 +10,13 @@ y = boston.target
 print('X :', x)
 print('Y :', y)
 
-b, w = linear_model.LinearRegression(x, y, lr = 0.0001, epoch = 1000)
-print('b', b)
-print('w', w)
+lr = linear_model.LinearRegression()
 
-y_pred = linear_model.predcit(x, b, w)
+lr.fit(x, y)
+predicted = lr.predict(x)
 
 fig, ax = plt.subplots()
-ax.scatter(y, y_pred, edgecolors=(0, 0, 0))
+ax.scatter(y, predicted, edgecolors=(0, 0, 0))
 ax.plot([y.min(), y.max()], [y.min(), y.max()], 'k--', lw=4)
 ax.set_xlabel('Measured')
 ax.set_ylabel('Predicted')
