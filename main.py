@@ -11,11 +11,14 @@ y = boston.target
 print('X :', x)
 print('Y :', y)
 
-b, w = linear_model.LinearRegression(x, y, lr = 0.0001, epoch = 1000)
+b, w = linear_model.LinearRegression(x, y, lr = 0.00001, epoch = 5000)
 print('b', b)
 print('w', w)
 
 y_pred = linear_model.predcit(x, b, w)
+
+mse = linear_model.mse(y, y_pred)
+print(mse)
 
 fig, ax = plt.subplots()
 ax.scatter(y, y_pred, edgecolors=(0, 0, 0))

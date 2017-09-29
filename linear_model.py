@@ -48,10 +48,11 @@ def SGD(x, y, lr, b, w):
         # print('b :', cal_loss_b)  
         w[i] = w[i] - lr * cal_loss_w *(1 / x_count)
         b = b - lr * cal_loss_b * (1 / x_count)
+
     return b, w
 
-def squre_error(y, y_pred):
-    return (y-y_pred)**2
+def mse(y, y_pred):
+    return sum((y-y_pred) ** 2) *(1 / y.shape[0])
 
 def y_pred_linear(x, bias, w):
     return bias + np.dot(w, x)
