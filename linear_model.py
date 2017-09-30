@@ -43,11 +43,11 @@ def SGD(x, y, lr, b, w):
     num_fea = x.shape[1]
     x_count = x.shape[0]
     for i in range(num_fea):
-        cal_loss_w, cal_loss_b = cal_loss(x, y, b, w, i)
-        # print('w:', cal_loss_w)
-        # print('b :', cal_loss_b)  
-        w[i] = w[i] - lr * cal_loss_w *(1 / x_count)
-        b = b - lr * cal_loss_b * (1 / x_count)
+        gradient_w, gradient_b = gradient(x, y, b, w, i)
+        # print('w:', gradient_w)
+        # print('b :', gradient_b)  
+        w[i] = w[i] - lr * gradient_w *(1 / x_count)
+        b = b - lr * gradient_b * (1 / x_count)
 
     return b, w
 
@@ -57,7 +57,7 @@ def mse(y, y_pred):
 def y_pred_linear(x, bias, w):
     return bias + np.dot(w, x)
 
-def cal_loss(x, y, b, w, i): 
+def gradient(x, y, b, w, i): 
     cal_weight = 0
     cal_bias = 0
     for j in range(x.shape[0]):
