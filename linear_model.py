@@ -113,5 +113,7 @@ def predcit(x, b, w):
 def mse(y, y_pred):
     return sum((y-y_pred) ** 2) *(1 / y.shape[0])
 
-def adagrad(lr, se, run):
-    pass
+def adagrad(gradient, sum_err, num_epoch):
+    new_sum_err = sum_err + gradient ** 2
+    adagrad = ((1 / num_epoch) * new_sum_err ) ** 0.5
+    return adagrad, new_sum_err 
