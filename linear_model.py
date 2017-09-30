@@ -1,5 +1,6 @@
 import numpy as np
 from numpy.linalg import inv
+
 def LinearRegression(x, y, lr = 0.0001 , epoch = 5, ex_size = 20):
     '''
     # Linear Regression
@@ -19,14 +20,15 @@ def LinearRegression(x, y, lr = 0.0001 , epoch = 5, ex_size = 20):
     
     # initialization
     b = 0
-    w = np.ones(x.shape[1])
+    w = np.zeros(x.shape[1])
 
     if type(lr) == str:
-        print('目前只有 static learning rate\n 使用 lr = 0.0001')
+        print('目前只有 static learning rate\n')
     else:
         # 數次 epoch 的 SGD, 還沒做 random choice
         for i in range(epoch):
             b, w = SGD(x, y, lr, b, w)
+            print('epoch:', i+1, '\n\t','w:', w, '\t\t\t','b :', b)  
 
     return b, w
 
@@ -56,6 +58,7 @@ def LinearRegression_close(x, y):
 
 def SGD(x, y, lr, b, w):
     '''
+    no 'S' here now 
     ## Attribute
     x: example x
     y: example y
@@ -67,30 +70,37 @@ def SGD(x, y, lr, b, w):
     b: constant bias
     w: weight array
     '''
+    
+    w_temp = np.zeros(x.shape[1] + 1)
+    w = np.insert(w, 0, b)
+    x = np.insert(x, 0, 1, axis = 1)
+
     num_fea = x.shape[1]
     x_count = x.shape[0]
-    for i in range(num_fea):
-        gradient_w, gradient_b = gradient(x, y, b, w, i)
-        # print('w:', gradient_w)
-        # print('b :', gradient_b)  
-        w[i] = w[i] - lr * gradient_w *(1 / x_count)
-        b = b - lr * gradient_b * (1 / x_count)
 
-    return b, w
+    gradient_w = gradient(x, y, w)
+    w_temp = w - (lr * gradient_w * (1 / x_count))
 
-def mse(y, y_pred):
-    return sum((y-y_pred) ** 2) *(1 / y.shape[0])
+    return w_temp[0], w_temp[1:]
 
-def y_pred_linear(x, bias, w):
-    return bias + np.dot(w, x)
+def gradient(x, y, w): 
+    '''
+    caculus of loss function (least square error)
+    '''
+    num_fea = x.shape[1]
 
-def gradient(x, y, b, w, i): 
-    cal_weight = 0
-    cal_bias = 0
-    for j in range(x.shape[0]):
-        cal_weight +=  (y[j] - (b + np.dot(w, x[j]))) * x[j, i]
-        cal_bias += y[j] - (b + np.dot(w, x[j]))
-    return -2 * cal_weight , -2 * cal_bias
+    gradient_weight = np.zeros(num_fea)
+    hypothesis = np.dot(x, w)
+    print('hypothesis:', hypothesis)
+
+    # for i in range(num_fea):
+    #     gradient_weight[i] = -2 * np.dot((y - hypothesis), x[:, i])
+    x_trans = np.transpose(x)
+    gradient_weight = 2 * np.dot(x_trans, (hypothesis - y))
+
+    print('gradient: ', gradient_weight)
+
+    return gradient_weight
 
 def predcit(x, b, w):
     count = x.shape[0]

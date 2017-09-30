@@ -11,7 +11,7 @@ y = boston.target
 print('X :', x)
 print('Y :', y)
 
-b, w = linear_model.LinearRegression(x, y, lr = 0.0001, epoch = 1000)
+b, w = linear_model.LinearRegression(x, y, lr = 0.000002, epoch = 10000)
 # b, w = linear_model.LinearRegression_close(x, y)
 
 print('b', b)
