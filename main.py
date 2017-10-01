@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 import linear_model
+import utils
 
 # 讀寫 boston 資料，data 和 target 皆為 np array
 boston = datasets.load_boston()
@@ -11,7 +12,10 @@ y = boston.target
 print('X :', x)
 print('Y :', y)
 
-b, w = linear_model.LinearRegression(x, y, lr = 0.000002, epoch = 10000)
+x, max, min = utils.fea_rescaling(x)
+y, max, min = utils.fea_rescaling(y)
+
+b, w = linear_model.LinearRegression(x, y, lr = 0.002, epoch = 10000)
 # b, w = linear_model.LinearRegression_close(x, y)
 
 print('b', b)

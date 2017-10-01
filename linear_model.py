@@ -1,7 +1,7 @@
 import numpy as np
 from numpy.linalg import inv
 
-def LinearRegression(x, y, lr = 0.0001 , epoch = 5, ex_size = 20):
+def LinearRegression(x, y, lr = 0.0001 , epoch = 5, ex_size = 20, lr_method = 'static'):
     '''
     # Linear Regression
     ## Basic Concpet
@@ -22,9 +22,12 @@ def LinearRegression(x, y, lr = 0.0001 , epoch = 5, ex_size = 20):
     b = 0
     w = np.zeros(x.shape[1])
 
-    if type(lr) == str:
-        print('目前只有 static learning rate\n')
-    else:
+    if lr_method == 'adagrad':
+        # print('目前只有 static learning rate\n')
+        print('使用adagrad')
+        
+
+    elif lr_method == 'static':
         # 數次 epoch 的 SGD, 還沒做 random choice
         for i in range(epoch):
             b, w = SGD(x, y, lr, b, w)
@@ -115,5 +118,5 @@ def mse(y, y_pred):
 
 def adagrad(gradient, sum_err, num_epoch):
     new_sum_err = sum_err + gradient ** 2
-    adagrad = ((1 / num_epoch) * new_sum_err ) ** 0.5
+    adagrad = new_sum_err ** 0.5
     return adagrad, new_sum_err 
