@@ -13,9 +13,10 @@ print('X :', x)
 print('Y :', y)
 
 x, max, min = utils.fea_rescaling(x)
-y, max, min = utils.fea_rescaling(y)
+# y, max, min = utils.fea_rescaling(y)
 
-b, w = linear_model.LinearRegression(x, y, lr = 0.002, epoch = 10000)
+# b, w = linear_model.LinearRegression(x, y, lr = 0.001, epoch = 100000)
+b, w = linear_model.LinearRegression(x, y, lr = 1, epoch = 100000, lr_method = 'adagrad')
 # b, w = linear_model.LinearRegression_close(x, y)
 
 print('b', b)
